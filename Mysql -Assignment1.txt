@@ -1,0 +1,33 @@
+-- sum of balance 
+select sum(balance) as totalBalance from bank_details;
+
+-- average of balance  
+select avg(balance) as avgBalance from bank_details;
+
+-- person having minimum balance 
+select * from bank_details where balance in (select min(balance) from bank_details) ;
+-- or 
+select * from bank_details order by balance limit 1;
+
+-- person having maximum balance 
+select * from bank_details where balance in (select max(balance) from bank_details) ;
+-- or 
+select * from bank_details order by balance desc limit 1;
+
+-- person having loan
+select * from bank_details where loan="yes";
+
+-- try to find out average balance for all the people whose job role is admin 
+ select avg(balance) from bank_details where job="admin.";
+ 
+--  person without job whose age is below 45 
+  select * from bank_details where age< 45 and job ="unknown";
+  
+-- persons where education is primary and person is jobless 
+  select * from bank_details where job ="unknown" and education ="primary" ;
+  
+-- record having balance is negative
+  select * from bank_details where balance <0 ;
+  
+-- recod who is not having house along with there balance 
+select  balance , housing  from bank_details where housing ="no";
