@@ -1,0 +1,36 @@
+Task 1:
+select product, case when product = "bread" then sum(quantity*unit_price) else sum(quantity*unit_price) end as total_price  from shopping_history group by product;
+
+
+Task 2: 
+select name from 
+(select sum(duration) as dur , callee from calls group by callee 
+union
+select  sum(duration) as dur , caller from calls group by caller ) as A 
+join phones on phones.phone_number = A.callee
+group by callee
+having sum(dur)>=10
+order by name;
+
+**** ans1 and 2 have same query of task2 as shown above
+
+
+Task 3:
+
+select sum(debt)+sum(credit)+sum(charges) as total_balance from ( 
+SELECT 
+    SUM(CASE WHEN amount > 0 THEN amount ELSE 0 END) debt,
+    SUM(CASE WHEN amount < 0 THEN amount ELSE 0 END) credit,
+    SUM(CASE WHEN amount < 0 THEN 1 ELSE 0  END) crdt_trans,
+    case  when (-sum(case when amount < 0 then amount else 0 end) < 100 ) or (SUM(CASE WHEN amount < 0 THEN 1  ELSE 0 END)<3) then -5 else 0 end charges,
+    month(date)
+FROM 
+(select * from  trasactions_payment 
+UNION SELECT 0,"2020-01-01" UNION SELECT 0,"2020-02-01" UNION SELECT 0,"2020-03-01" UNION SELECT 0,"2020-04-01" UNION 
+SELECT 0,"2020-05-01" UNION SELECT 0,"2020-06-01" UNION SELECT 0,"2020-07-01" UNION SELECT 0,"2020-08-01" UNION 
+SELECT 0,"2020-09-01" UNION SELECT 0,"2020-10-01" UNION SELECT 0,"2020-11-01" UNION SELECT 0,"2020-12-01") as A
+GROUP BY MONTH(date)
+) as B;
+
+**** Ans 1, 2 , 3 of task 3 have same query  as shown above.
+
